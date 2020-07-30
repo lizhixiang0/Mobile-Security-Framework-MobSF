@@ -109,11 +109,14 @@ def unzip(app_path, ext_path):
 
 def pdf(request, api=False, jsonres=False):
     try:
+
         if api:
             checksum = request.POST['hash']
         else:
             checksum = request.GET['md5']
+
         hash_match = re.match('^[0-9a-f]{32}$', checksum)
+
         if not hash_match:
             if api:
                 return {'error': 'Invalid scan hash'}
@@ -153,6 +156,7 @@ def pdf(request, api=False, jsonres=False):
                 checksum + ext)
             vt = VirusTotal.VirusTotal()
             context['virus_total'] = vt.get_result(app_bin, checksum)
+
         # Get Local Base URL
         proto = 'file://'
         host_os = 'nix'
