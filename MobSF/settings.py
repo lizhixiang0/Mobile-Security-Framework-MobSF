@@ -335,7 +335,7 @@ else:
     # MALWARE ANALYZER SETTINGS
     # --------------------------
     DOMAIN_MALWARE_SCAN = True
-    APKID_ENABLED = False
+    APKID_ENABLED = True
     # ==============================================
 
     # -----External URLS--------------------------
@@ -357,9 +357,9 @@ else:
     # ========DISABLED COMPONENTS===================
 
     # ----------VirusTotal--------------------------
-    VT_ENABLED = False
+    VT_ENABLED = True
     VT_API_KEY = '2e246ac0769ac9a57ee16fadc2354e7da5033f5d058f735b8826f7cfa2a5d1dc'
-    VT_UPLOAD = False
+    VT_UPLOAD = True
     # Before setting VT_ENABLED to True,
     # Make sure VT_API_KEY is set to your VirusTotal API key
     # register at: https://www.virustotal.com/#/join-us
