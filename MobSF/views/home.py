@@ -17,7 +17,11 @@ from django.template.defaulttags import register
 from MobSF.forms import FormUtil, UploadFileForm
 from MobSF.utils import (api_key, is_dir_exists, is_file_exists,
                          print_n_send_error_response)
+<<<<<<< HEAD
 from MobSF.views.helpers import FileType, request_method
+=======
+from MobSF.views.helpers import FileType
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
 from MobSF.views.scanning import Scanning
 
 from StaticAnalyzer.models import (RecentScansDB,
@@ -125,9 +129,13 @@ class Upload(object):
         if not self.file_type.is_allow_file():
             api_response['error'] = 'File format not Supported!'
             return api_response, HTTP_BAD_REQUEST
+<<<<<<< HEAD
 
         data = self.upload()
 
+=======
+        data = self.upload()
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
         api_response = {
             'scan_type': data['scan_type'],
             'hash': data['hash'],
@@ -135,7 +143,10 @@ class Upload(object):
         }
         return api_response, 200
 
+<<<<<<< HEAD
     # 执行文件上传
+=======
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
     def upload(self):
         request = self.request
         scanning = Scanning(request)

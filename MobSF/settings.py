@@ -63,6 +63,7 @@ SECRET_FILE = os.path.join(MobSF_HOME, 'secret')
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 # Sqlite3 suport
 
+<<<<<<< HEAD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -73,11 +74,24 @@ SECRET_FILE = os.path.join(MobSF_HOME, 'secret')
 
 # Postgres DB - Install psycopg2
 
+=======
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': DB_DIR,
+    },
+}
+# End Sqlite3 support
+
+# Postgres DB - Install psycopg2
+"""
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mobsf',
         'USER': 'postgres',
+<<<<<<< HEAD
         'PASSWORD': '123456',
         'HOST': '192.168.201.81',
         'PORT': '5432',
@@ -85,6 +99,15 @@ DATABASES = {
 }
 # End Postgres support
 
+=======
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+# End Postgres support
+"""
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
 # ===============================================
 
 # ==========LOAD CONFIG FROM MobSF HOME==========
@@ -204,8 +227,12 @@ TEMPLATES = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/uploads/'
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+=======
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # 256MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 268435456
@@ -331,11 +358,19 @@ else:
     UPSTREAM_PROXY_USERNAME = ''
     UPSTREAM_PROXY_PASSWORD = ''
     # ==============================================
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
     # --------------------------
     # MALWARE ANALYZER SETTINGS
     # --------------------------
     DOMAIN_MALWARE_SCAN = True
+<<<<<<< HEAD
     APKID_ENABLED = False
+=======
+    APKID_ENABLED = True
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
     # ==============================================
 
     # -----External URLS--------------------------
@@ -358,7 +393,11 @@ else:
 
     # ----------VirusTotal--------------------------
     VT_ENABLED = False
+<<<<<<< HEAD
     VT_API_KEY = '2e246ac0769ac9a57ee16fadc2354e7da5033f5d058f735b8826f7cfa2a5d1dc'
+=======
+    VT_API_KEY = ''
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
     VT_UPLOAD = False
     # Before setting VT_ENABLED to True,
     # Make sure VT_API_KEY is set to your VirusTotal API key

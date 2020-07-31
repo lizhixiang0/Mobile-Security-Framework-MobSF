@@ -58,7 +58,10 @@ def key(data, key_name):
 def static_analyzer(request, api=False):
     """Do static analysis on an request and save to db."""
     try:
+<<<<<<< HEAD
         # 如果是调用的扫描api,那这里就是true
+=======
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
         if api:
             typ = request.POST['scan_type']
             checksum = request.POST['hash']
@@ -181,8 +184,11 @@ def static_analyzer(request, api=False):
                     cert_dic = cert_info(
                         app_dic['app_dir'],
                         app_dic['app_file'])
+<<<<<<< HEAD
 
                     # apkid扫描
+=======
+>>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
                     apkid_results = apkid_analysis(app_dic[
                         'app_dir'], app_dic['app_path'], app_dic['app_name'])
                     tracker = Trackers.Trackers(
