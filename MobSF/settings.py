@@ -73,41 +73,20 @@ SECRET_FILE = os.path.join(MobSF_HOME, 'secret')
 # End Sqlite3 support
 
 # Postgres DB - Install psycopg2
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_DIR,
-    },
-}
 # End Sqlite3 support
 
 # Postgres DB - Install psycopg2
-"""
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mobsf',
         'USER': 'postgres',
-<<<<<<< HEAD
         'PASSWORD': '123456',
         'HOST': '192.168.201.81',
         'PORT': '5432',
     }
 }
 # End Postgres support
-
-=======
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-# End Postgres support
-"""
-
 # ===============================================
 
 # ==========LOAD CONFIG FROM MobSF HOME==========
