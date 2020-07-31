@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from django import forms
 
 
@@ -35,7 +35,7 @@ class FormUtil(object):
     @staticmethod
     def errors(form):
         return form.errors.get_json_data()
-=======
+
 from django import forms
 
 
@@ -72,4 +72,4 @@ class FormUtil(object):
     @staticmethod
     def errors(form):
         return form.errors.get_json_data()
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
+

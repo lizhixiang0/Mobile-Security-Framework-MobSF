@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # -*- coding: utf_8 -*-
 """Android Code Analysis Rules."""
 
@@ -625,7 +625,7 @@ RULES = [
         'owasp-mstg': OWASP_MSTG['platform-8'],
     },
 ]
-=======
+
 # -*- coding: utf_8 -*-
 """Android Code Analysis Rules."""
 
@@ -1252,4 +1252,3 @@ RULES = [
         'owasp-mstg': OWASP_MSTG['platform-8'],
     },
 ]
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f

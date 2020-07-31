@@ -107,12 +107,7 @@ def check_update():
             proxies, verify = upstream_proxy('https')
         except Exception:
             logger.exception('Setting upstream proxy')
-<<<<<<< HEAD
         response = requests.get(github_url)
-=======
-        response = requests.get(github_url, timeout=5,
-                                proxies=proxies, verify=verify)
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
         html = str(response.text).split('\n')
         local_version = settings.MOBSF_VER
         for line in html:
@@ -417,14 +412,7 @@ def update_local_db(db_name, url, local_file):
     except Exception:
         logger.exception('[ERROR] Setting upstream proxy')
     try:
-<<<<<<< HEAD
         response = requests.get(url)
-=======
-        response = requests.get(url,
-                                timeout=3,
-                                proxies=proxies,
-                                verify=verify)
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
         resp = response.content
         inmemoryfile = io.BytesIO(resp)
         # Create on first run

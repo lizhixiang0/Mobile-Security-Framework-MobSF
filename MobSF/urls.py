@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from django.conf.urls import url
 
 from DynamicAnalyzer.views.android import dynamic_analyzer as dz
@@ -112,7 +112,6 @@ urlpatterns = [
 ]
 
 utils.print_version()
-=======
 from django.conf.urls import url
 
 from DynamicAnalyzer.views.android import dynamic_analyzer as dz
@@ -226,4 +225,3 @@ urlpatterns = [
 ]
 
 utils.print_version()
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f

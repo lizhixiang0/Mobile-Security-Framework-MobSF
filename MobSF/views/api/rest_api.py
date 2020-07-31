@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # -*- coding: utf_8 -*-
 """MobSF REST API V 1."""
 
@@ -617,7 +617,7 @@ def api_view_source(request):
     else:
         response = make_api_response({'error': 'Missing Parameters'}, 422)
     return response
-=======
+
 # -*- coding: utf_8 -*-
 """MobSF REST API V 1."""
 
@@ -800,4 +800,4 @@ def api_view_source(request):
     else:
         response = make_api_response({'error': 'Missing Parameters'}, 422)
     return response
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
+

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import io
 
 
@@ -23,7 +23,7 @@ def strings_util(filename, minimum=6):
             if len(result) >= minimum and result[0].isalnum():
                 yield '\'' + result + '\''
             result = ''
-=======
+
 import io
 
 
@@ -48,4 +48,4 @@ def strings_util(filename, minimum=6):
             if len(result) >= minimum and result[0].isalnum():
                 yield '\'' + result + '\''
             result = ''
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
+

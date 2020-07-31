@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # -*- coding: utf_8 -*-
 """iOS Source Code Analysis API Rules."""
 
@@ -91,7 +91,7 @@ CODE_APIS = [
         'input_case': InputCase.exact,
     },
 ]
-=======
+
 # -*- coding: utf_8 -*-
 """iOS Source Code Analysis API Rules."""
 
@@ -184,4 +184,4 @@ CODE_APIS = [
         'input_case': InputCase.exact,
     },
 ]
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
+

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # -*- coding: utf_8 -*-
 """iOS Source Code Analysis Objective C Rules."""
 
@@ -257,7 +257,7 @@ OBJC_RULES = common_rules.COMMON_RULES + [
         'owasp-mstg': OWASP_MSTG['storage-14'],
     },
 ]
-=======
+
 # -*- coding: utf_8 -*-
 """iOS Source Code Analysis Objective C Rules."""
 
@@ -516,4 +516,4 @@ OBJC_RULES = common_rules.COMMON_RULES + [
         'owasp-mstg': OWASP_MSTG['storage-14'],
     },
 ]
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
+

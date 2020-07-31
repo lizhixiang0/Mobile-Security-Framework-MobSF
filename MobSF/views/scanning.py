@@ -15,10 +15,9 @@ def add_to_recent_scan(name, md5, url):
     """Add Entry to Database under Recent Scan."""
     try:
         db_obj = RecentScansDB.objects.filter(MD5=md5)
-<<<<<<< HEAD
+
         # 判断重复，如果已经有了就不存储了
-=======
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
+
         if not db_obj.exists():
             new_db_obj = RecentScansDB(
                 FILE_NAME=name, MD5=md5, URL=url, TIMESTAMP=timezone.now())

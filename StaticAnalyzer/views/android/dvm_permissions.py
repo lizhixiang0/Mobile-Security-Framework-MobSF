@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 
 # Androguard is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -254,7 +254,7 @@ DVM_PERMISSIONS = {
         'SYSTEM_TOOLS': 'Group of permissions that are related to system APIs.',
     },
 }
-=======
+
 
 # Androguard is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -510,4 +510,4 @@ DVM_PERMISSIONS = {
         'SYSTEM_TOOLS': 'Group of permissions that are related to system APIs.',
     },
 }
->>>>>>> 0e25bd1b7f0ac52d875766e80a7158f5e5832e2f
+
