@@ -206,9 +206,7 @@ TEMPLATES = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/uploads/'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # 256MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 268435456
@@ -337,8 +335,8 @@ else:
     # --------------------------
     # MALWARE ANALYZER SETTINGS
     # --------------------------
-    DOMAIN_MALWARE_SCAN = True
-    APKID_ENABLED = True
+    DOMAIN_MALWARE_SCAN = False
+    APKID_ENABLED = False
     # ==============================================
 
     # -----External URLS--------------------------
@@ -360,9 +358,9 @@ else:
     # ========DISABLED COMPONENTS===================
 
     # ----------VirusTotal--------------------------
-    VT_ENABLED = True
+    VT_ENABLED = False
     VT_API_KEY = '2e246ac0769ac9a57ee16fadc2354e7da5033f5d058f735b8826f7cfa2a5d1dc'
-    VT_UPLOAD = True
+    VT_UPLOAD = False
     # Before setting VT_ENABLED to True,
     # Make sure VT_API_KEY is set to your VirusTotal API key
     # register at: https://www.virustotal.com/#/join-us

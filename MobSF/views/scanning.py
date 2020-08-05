@@ -20,7 +20,7 @@ def add_to_recent_scan(name, md5, url):
 
         if not db_obj.exists():
             new_db_obj = RecentScansDB(
-                FILE_NAME=name, MD5=md5, URL=url, TIMESTAMP=timezone.now())
+                FILE_NAME=name, MD5=md5, URL=url, TIMESTAMP=timezone.now(), STATUS="U")
             new_db_obj.save()
 
     except Exception:
@@ -36,6 +36,7 @@ def handle_uploaded_file(filecnt, typ):
     anal_dir = os.path.join(settings.UPLD_DIR, md5sum + '/')
     if not os.path.exists(anal_dir):
         os.makedirs(anal_dir)
+    # 写入文件系统
     with open(anal_dir + md5sum + typ, 'wb+') as destination:
         for chunk in filecnt.chunks():
             destination.write(chunk)
@@ -51,6 +52,7 @@ class Scanning(object):
 
     def scan_apk(self):
         """Android APK."""
+        # 处理文件，将文件存储到文件系统,并且返回MD5
         md5 = handle_uploaded_file(self.file, '.apk')
         url = 'StaticAnalyzer/?name={}&type=apk&checksum={}'.format(
             self.file_name, md5)
