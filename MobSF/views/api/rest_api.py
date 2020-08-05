@@ -1,9 +1,12 @@
 # -*- coding: utf_8 -*-
 """MobSF REST API V 1."""
+import json
 
+import requests
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from requests_toolbelt import MultipartEncoder
 from MobSF.utils import api_key
 from MobSF.views.helpers import request_method
 from MobSF.views.home import RecentScans, Upload, delete_scan
@@ -41,7 +44,25 @@ def api_upload(request):
     """POST - Upload API."""
     upload = Upload(request)
     resp, code = upload.upload_api()
-    return make_api_response(resp, code)
+
+    typ = resp['scan_type']
+    checksum = resp['hash']
+    filename = resp['file_name']
+
+    url = 'http://localhost:8000/api/v1/scan'
+    data = {
+        'scan_type': (None, typ),
+        'hash': (None, checksum),
+        'file_name': (None, filename),
+        're_scan': (None, str(0))
+    }
+    m = MultipartEncoder(fields=data)
+
+    headers = {'Content-Type': m.content_type,
+               'Authorization': '6a6728f44f53bc8fa70a23f9aeeba82164aa5841456fab5775488fa9ebfd2343'}
+
+    resp = requests.post(url, data=m, headers=headers)
+    return make_api_response(json.loads(resp.content), 200)
 
 
 @request_method(['GET'])
