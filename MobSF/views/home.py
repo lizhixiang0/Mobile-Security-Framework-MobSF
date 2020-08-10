@@ -9,6 +9,7 @@ import shutil
 from wsgiref.util import FileWrapper
 
 from django.conf import settings
+from django.contrib import auth
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render

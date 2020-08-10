@@ -20,7 +20,7 @@ def add_to_recent_scan(name, md5, url):
 
         if not db_obj.exists():
             new_db_obj = RecentScansDB(
-                FILE_NAME=name, MD5=md5, URL=url, TIMESTAMP=timezone.now(), STATUS="U")
+                FILE_NAME=name, MD5=md5, URL=url, TIMESTAMP=timezone.now(), STATUS='0')
             new_db_obj.save()
 
     except Exception:
