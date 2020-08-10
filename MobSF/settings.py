@@ -65,10 +65,23 @@ SECRET_FILE = os.path.join(MobSF_HOME, 'secret')
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mobsf',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
+"""
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DB_DIR,
     },
 }
+"""
+
 # End Sqlite3 support
 
 # Postgres DB - Install psycopg2
@@ -204,7 +217,8 @@ TEMPLATES = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/uploads/'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # 256MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 268435456

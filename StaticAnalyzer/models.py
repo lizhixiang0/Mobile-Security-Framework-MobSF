@@ -10,6 +10,8 @@ class RecentScansDB(models.Model):
     APP_NAME = models.CharField(max_length=260)
     PACKAGE_NAME = models.CharField(max_length=260)
     VERSION_NAME = models.CharField(max_length=50)
+    STATUS = models.CharField(max_length=2, default="")
+    FAIL_REASON = models.CharField(max_length=260, default="")
 
 
 class StaticAnalyzerAndroid(models.Model):

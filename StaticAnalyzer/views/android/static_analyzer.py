@@ -23,7 +23,7 @@ from MobSF.utils import (
     print_n_send_error_response,
 )
 
-from StaticAnalyzer.models import StaticAnalyzerAndroid
+from StaticAnalyzer.models import StaticAnalyzerAndroid, RecentScansDB
 from StaticAnalyzer.views.android.binary_analysis import (elf_analysis,
                                                           res_analysis)
 from StaticAnalyzer.views.android.cert_analysis import (
@@ -470,6 +470,7 @@ def static_analyzer(request, api=False):
         else:
             msg = 'Hash match failed or Invalid file extension or file type'
             if api:
+                logger.error(msg)
                 return print_n_send_error_response(request, msg, True)
             else:
                 return print_n_send_error_response(request, msg, False)
@@ -478,6 +479,7 @@ def static_analyzer(request, api=False):
         logger.exception('Error Performing Static Analysis')
         msg = str(excep)
         exp = excep.__doc__
+        RecentScansDB.objects.filter(MD5=checksum).update(FAIL_REASON=msg, STATUS=2)
         if api:
             return print_n_send_error_response(request, msg, True, exp)
         else:

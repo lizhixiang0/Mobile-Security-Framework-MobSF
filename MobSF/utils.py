@@ -107,8 +107,8 @@ def check_update():
             proxies, verify = upstream_proxy('https')
         except Exception:
             logger.exception('Setting upstream proxy')
-        response = requests.get(github_url, timeout=5,
-                                proxies=proxies, verify=verify)
+        response = requests.get(github_url, timeout=50,
+                                proxies=proxies)
         html = str(response.text).split('\n')
         local_version = settings.MOBSF_VER
         for line in html:

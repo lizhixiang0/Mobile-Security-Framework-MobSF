@@ -1,13 +1,15 @@
 # -*- coding: utf_8 -*-
 """MobSF REST API V 1."""
-import json
 
 import requests
+from click import exceptions
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from requests_toolbelt import MultipartEncoder
-from MobSF.utils import api_key
+
+from MobSF.ThreadPool import global_thread_pool
+from MobSF.utils import api_key, logger
 from MobSF.views.helpers import request_method
 from MobSF.views.home import RecentScans, Upload, delete_scan
 
@@ -44,12 +46,25 @@ def api_upload(request):
     """POST - Upload API."""
     upload = Upload(request)
     resp, code = upload.upload_api()
+    checksum = resp['hash']
+    # 异步处理,如果已经有线程在处理则跳过。
+    if global_thread_pool.is_project_thread_running(checksum):
+        logger.error("The apk is being scanning")
+        # raise exceptions.ValidationError(detail='存在正在处理的批量任务，请稍后重试')
+    else:
+        future = global_thread_pool.executor.submit(scan, resp, request)
+        global_thread_pool.future_dict[checksum] = future
+    #response = future.result()
+    #return make_api_response(json.loads(response.content), response.status_code)
+    return make_api_response(resp, code)
 
+
+def scan(resp, request):
     typ = resp['scan_type']
     checksum = resp['hash']
     filename = resp['file_name']
-
-    url = 'http://localhost:8000/api/v1/scan'
+    authorization = request.environ.get('HTTP_AUTHORIZATION')
+    url = 'http://' + request.get_host() + '/api/v1/scan'
     data = {
         'scan_type': (None, typ),
         'hash': (None, checksum),
@@ -57,13 +72,10 @@ def api_upload(request):
         're_scan': (None, str(0))
     }
     m = MultipartEncoder(fields=data)
-
     headers = {'Content-Type': m.content_type,
-               'Authorization': '6a6728f44f53bc8fa70a23f9aeeba82164aa5841456fab5775488fa9ebfd2343'}
-
+               'Authorization': authorization}
     resp = requests.post(url, data=m, headers=headers)
-    return make_api_response(json.loads(resp.content), 200)
-
+    return resp
 
 @request_method(['GET'])
 @csrf_exempt

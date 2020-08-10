@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib import admin
 
 from DynamicAnalyzer.views.android import dynamic_analyzer as dz
 from DynamicAnalyzer.views.android import (
