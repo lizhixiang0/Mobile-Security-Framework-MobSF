@@ -14,7 +14,8 @@ import stat
 import sqlite3
 import unicodedata
 import threading
-from distutils.version import LooseVersion
+import time
+import redis
 
 import distro
 
@@ -36,6 +37,50 @@ class Color(object):
     RED = '\033[91m'
     BOLD = '\033[1m'
     END = '\033[0m'
+
+
+redis_client = redis.Redis(host=settings.REDIS_IP,
+                           port=settings.REDIS_PORT,
+                           )
+
+
+# 获取一个锁
+# lock_name：锁定名称
+# acquire_time: 客户端准备获取锁的时间,防止一直在等着获取锁,以秒为单位
+# time_out: 锁的过期时间,30分钟
+def acquire_lock(lock_name, acquire_time=5, time_out=1800, MD5="123456789"):
+    end = time.time() + acquire_time
+    lock = "string:lock:" + lock_name
+    while time.time() < end:
+        if redis_client.setnx(lock, MD5):
+            # 给锁设置超时时间, 防止进程崩溃导致其他进程无法获取锁（这里有点问题,需要保证两个命令同时进行）
+            redis_client.expire(lock, time_out)
+            return True
+    return False
+
+
+# 释放一个锁
+def release_lock(lock_name, MD5="123456789"):
+    """通用的锁释放函数"""
+    lock = "string:lock:" + lock_name
+    pip = redis_client.pipeline(True)
+    while True:
+        try:
+            pip.watch(lock)
+            lock_value = redis_client.get(lock)
+            if not lock_value:
+                return True
+
+            if lock_value.decode() == MD5:
+                pip.multi()
+                pip.delete(lock)
+                pip.execute()
+                return True
+            pip.unwatch()
+            break
+        except redis.excetions.WacthcError:
+            pass
+    return False
 
 
 def upstream_proxy(flaw_type):
@@ -102,25 +147,26 @@ def print_version():
 def check_update():
     try:
         logger.info('Checking for Update.')
-        github_url = settings.GITHUB_URL
-        try:
-            proxies, verify = upstream_proxy('https')
-        except Exception:
-            logger.exception('Setting upstream proxy')
-        response = requests.get(github_url, timeout=50,
-                                proxies=proxies)
-        html = str(response.text).split('\n')
-        local_version = settings.MOBSF_VER
-        for line in html:
-            if line.startswith('MOBSF_VER'):
-                remote_version = line.split('= ', 1)[1].replace('\'', '')
-                if LooseVersion(local_version) < LooseVersion(remote_version):
-                    logger.warning('A new version of MobSF is available, '
-                                   'Please update to %s from master branch.',
-                                   remote_version)
-                else:
-                    logger.info('No updates available.')
-                break
+        # github_url = settings.GITHUB_URL
+        # try:
+        #     proxies, verify = upstream_proxy('https')
+        # except Exception:
+        #     logger.exception('Setting upstream proxy')
+        #
+        # response = requests.get(github_url, timeout=50,
+        #                         proxies=proxies)
+        # html = str(response.text).split('\n')
+        # local_version = settings.MOBSF_VER
+        # for line in html:
+        #     if line.startswith('MOBSF_VER'):
+        #         remote_version = line.split('= ', 1)[1].replace('\'', '')
+        #         if LooseVersion(local_version) < LooseVersion(remote_version):
+        #             logger.warning('A new version of MobSF is available, '
+        #                            'Please update to %s from master branch.',
+        #                            remote_version)
+        #         else:
+        #             logger.info('No updates available.')
+        #         break
     except requests.exceptions.HTTPError:
         logger.warning('\nCannot check for updates..'
                        ' No Internet Connection Found.')

@@ -85,19 +85,18 @@ DATABASES = {
 # End Sqlite3 support
 
 # Postgres DB - Install psycopg2
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mobsf',
-        'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'mobsf',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
+#         'HOST': '192.168.201.81',
+#         'PORT': '5432',
+#     }
+# }
 # End Postgres support
-"""
+
 # ===============================================
 
 # ==========LOAD CONFIG FROM MobSF HOME==========
@@ -384,6 +383,9 @@ else:
     # ==============================================
     # ^CONFIG-END^: Do not edit this line
 
+    # ====================redis============================
+    REDIS_IP = '127.0.0.1'
+    REDIS_PORT = 6379
 
 # Better logging
 LOGGING = {

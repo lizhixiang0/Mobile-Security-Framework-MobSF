@@ -2,14 +2,13 @@
 """MobSF REST API V 1."""
 
 import requests
-from click import exceptions
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from requests_toolbelt import MultipartEncoder
 
 from MobSF.ThreadPool import global_thread_pool
-from MobSF.utils import api_key, logger
+from MobSF.utils import api_key, logger, acquire_lock, release_lock
 from MobSF.views.helpers import request_method
 from MobSF.views.home import RecentScans, Upload, delete_scan
 
@@ -54,8 +53,6 @@ def api_upload(request):
     else:
         future = global_thread_pool.executor.submit(scan, resp, request)
         global_thread_pool.future_dict[checksum] = future
-    #response = future.result()
-    #return make_api_response(json.loads(response.content), response.status_code)
     return make_api_response(resp, code)
 
 
@@ -98,12 +95,19 @@ def api_scan(request):
         scan_type = request.POST['scan_type']
         # APK, Android ZIP and iOS ZIP
         if scan_type in {'apk', 'zip'}:
-            resp = static_analyzer(request, True)
+            # 加锁
+            md5 = request.POST['hash']
+            if acquire_lock(md5, 5, 3600, md5):
+                resp = static_analyzer(request, True)
+                # 解锁
+                release_lock(md5, md5)
+
             if 'type' in resp:
                 # For now it's only ios_zip
                 request.POST._mutable = True
                 request.POST['scan_type'] = 'ios'
                 resp = static_analyzer_ios(request, True)
+
             if 'error' in resp:
                 response = make_api_response(resp, 500)
             else:
@@ -213,3 +217,4 @@ def api_view_source(request):
     else:
         response = make_api_response({'error': 'Missing Parameters'}, 422)
     return response
+

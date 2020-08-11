@@ -1,5 +1,5 @@
+
 from django.conf.urls import url
-from django.contrib import admin
 
 from DynamicAnalyzer.views.android import dynamic_analyzer as dz
 from DynamicAnalyzer.views.android import (
@@ -106,9 +106,12 @@ urlpatterns = [
     url(r'^api/v1/view_source$', rest_api.api_view_source),
     url(r'^api/v1/scans$', rest_api.api_recent_scans),
 
+
     # Test
     url(r'^tests/$', tests.start_test),
 
 ]
 
 utils.print_version()
+
+

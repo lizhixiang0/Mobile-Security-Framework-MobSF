@@ -24,3 +24,9 @@ apkid==2.1.0
 cryptography<3.0,>=2.9 # pyup: ignore
 pyOpenSSL<19.2,>=19.1.0 # pyup: ignore
 http-tools==1.1.1
+
+redis~=3.5.3
+PyMySQL~=0.10.0
+six~=1.14.0
+argparse~=1.4.0
+beautifulsoup4~=4.8.2
