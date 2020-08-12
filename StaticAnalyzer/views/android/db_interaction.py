@@ -205,7 +205,7 @@ def save_or_update(update_type,
             'APP_NAME': app_dic['real_name'],
             'PACKAGE_NAME': man_data_dic['packagename'],
             'VERSION_NAME': man_data_dic['androvername'],
-            'STATUS': 1,
+            'STATUS': 'C',
         }
         RecentScansDB.objects.filter(
             MD5=app_dic['md5']).update(**values)

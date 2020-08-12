@@ -327,16 +327,20 @@ class RecentScans(object):
         self.request = request
 
     def recent_scans(self):
+        md5 = self.request.GET.get('hash')
         page = self.request.GET.get('page', 1)
         page_size = self.request.GET.get('page_size', 10)
-        result = RecentScansDB.objects.all().values().order_by('-TIMESTAMP')
+        # result = RecentScansDB.objects.filter(MD5=md5).values().order_by('-TIMESTAMP')
+        result = RecentScansDB.objects.filter(MD5=md5)
         try:
-            paginator = Paginator(result, page_size)
-            content = paginator.page(page)
+            # paginator = Paginator(result, page_size)
+            # content = paginator.page(page)
             data = {
-                'content': list(content),
-                'count': paginator.count,
-                'num_pages': paginator.num_pages,
+                # 'content': list(content),
+                # 'count': paginator.count,
+                # 'num_pages': paginator.num_pages,
+                'status': result[0].STATUS,
+                'fail_reason': result[0].FAIL_REASON
             }
         except Exception as exp:
             data = {'error': str(exp)}
