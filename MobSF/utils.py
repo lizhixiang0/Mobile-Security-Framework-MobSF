@@ -47,14 +47,13 @@ redis_client = redis.Redis(host=settings.REDIS_IP,
 # 获取一个锁
 # lock_name：锁定名称
 # acquire_time: 客户端准备获取锁的时间,防止一直在等着获取锁,以秒为单位
-# time_out: 锁的过期时间,30分钟
-def acquire_lock(lock_name, acquire_time=5, time_out=1800, MD5="123456789"):
+# time_out: 锁的过期时间,1小时
+def acquire_lock(lock_name, acquire_time=3, time_out=3600, MD5="123456789"):
     end = time.time() + acquire_time
     lock = "string:lock:" + lock_name
     while time.time() < end:
-        if redis_client.setnx(lock, MD5):
+        if redis_client.setnx(lock, MD5) and redis_client.expire(lock, time_out):
             # 给锁设置超时时间, 防止进程崩溃导致其他进程无法获取锁（这里有点问题,需要保证两个命令同时进行）
-            redis_client.expire(lock, time_out)
             return True
     return False
 

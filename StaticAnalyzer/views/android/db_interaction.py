@@ -3,6 +3,7 @@ import logging
 
 from django.conf import settings
 from django.db.models import QuerySet
+from django.utils import timezone
 
 from MobSF.utils import python_dict, python_list
 
@@ -19,6 +20,8 @@ def get_context_from_db_entry(db_entry: QuerySet) -> dict:
     """Return the context for APK/ZIP from DB."""
     try:
         logger.info('Analysis is already Done. Fetching data from the DB...')
+        # 扫描已经完成，那么改变下状态
+
         context = {
             'version': settings.MOBSF_VER,
             'title': 'Static Analysis',
@@ -65,6 +68,14 @@ def get_context_from_db_entry(db_entry: QuerySet) -> dict:
             'trackers': python_dict(db_entry[0].TRACKERS),
             'playstore_details': python_dict(db_entry[0].PLAYSTORE_DETAILS),
         }
+
+        tms = timezone.now()
+        RecentScansDB.objects.filter(MD5=context.get('md5')).update(APP_NAME=context.get('app_name'),
+                                                                    PACKAGE_NAME=context.get('package_name'),
+                                                                    VERSION_NAME=context.get('version_name'),
+                                                                    TIMESTAMP=tms,
+                                                                    STATUS='C',
+                                                                    FAIL_REASON='')
         return context
     except Exception:
         logger.exception('Fetching from DB')

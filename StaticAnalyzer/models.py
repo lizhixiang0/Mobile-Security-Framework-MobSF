@@ -10,7 +10,7 @@ class RecentScansDB(models.Model):
     APP_NAME = models.CharField(max_length=260)
     PACKAGE_NAME = models.CharField(max_length=260)
     VERSION_NAME = models.CharField(max_length=50)
-    # 1代表成功、2代表失败、0代表正在扫描
+    # C代表成功、F代表失败、I代表正在扫描
     STATUS = models.CharField(max_length=2, default="")
     FAIL_REASON = models.CharField(max_length=260, default="")
 

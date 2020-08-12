@@ -71,8 +71,14 @@ def scan(resp, request):
     m = MultipartEncoder(fields=data)
     headers = {'Content-Type': m.content_type,
                'Authorization': authorization}
-    resp = requests.post(url, data=m, headers=headers)
-    return resp
+    if acquire_lock(checksum, 5, 3600, checksum):
+        response = requests.post(url, data=m, headers=headers)
+        # 解锁
+        release_lock(checksum, checksum)
+    else:
+        logger.error("Scanning in other server")
+        response = None
+    return response
 
 @request_method(['GET'])
 @csrf_exempt
@@ -95,13 +101,7 @@ def api_scan(request):
         scan_type = request.POST['scan_type']
         # APK, Android ZIP and iOS ZIP
         if scan_type in {'apk', 'zip'}:
-            # 加锁
-            md5 = request.POST['hash']
-            if acquire_lock(md5, 5, 3600, md5):
-                resp = static_analyzer(request, True)
-                # 解锁
-                release_lock(md5, md5)
-
+            resp = static_analyzer(request, True)
             if 'type' in resp:
                 # For now it's only ios_zip
                 request.POST._mutable = True

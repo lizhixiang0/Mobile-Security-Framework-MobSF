@@ -95,6 +95,7 @@ def static_analyzer(request, api=False):
             if typ == 'apk':
                 # Check if in DB
                 # pylint: disable=E1101
+                # 查一下是否有扫描好的，如果有直接从数据库取出来
                 db_entry = StaticAnalyzerAndroid.objects.filter(
                     MD5=app_dic['md5'])
                 if db_entry.exists() and rescan == '0':
@@ -226,6 +227,7 @@ def static_analyzer(request, api=False):
                     logger.info('Connecting to Database')
                     try:
                         # SAVE TO DB
+                        # 重新扫描，则更新下RecentScansDB表的TIMESTAMP
                         if rescan == '1':
                             logger.info('Updating Database...')
                             save_or_update(
@@ -481,7 +483,7 @@ def static_analyzer(request, api=False):
         logger.exception('Error Performing Static Analysis')
         msg = str(excep)
         exp = excep.__doc__
-        RecentScansDB.objects.filter(MD5=checksum).update(FAIL_REASON=msg, STATUS=2)
+        RecentScansDB.objects.filter(MD5=checksum).update(FAIL_REASON=msg, STATUS='F')
         if api:
             return print_n_send_error_response(request, msg, True, exp)
         else:
