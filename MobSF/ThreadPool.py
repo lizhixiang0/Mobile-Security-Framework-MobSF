@@ -4,8 +4,8 @@ from concurrent.futures.thread import ThreadPoolExecutor
 class ThreadPool(object):
     def __init__(self):
         # 线程池
-        self.executor = ThreadPoolExecutor(10)
-        # 用于存储每个项目批量任务的期程
+        self.executor = ThreadPoolExecutor(3)
+        # 用于存储正在执行任务的线程
         self.future_dict = {}
 
     # 检查某个项目是否有正在运行的批量任务

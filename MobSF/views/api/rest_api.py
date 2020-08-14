@@ -1,5 +1,6 @@
 # -*- coding: utf_8 -*-
 """MobSF REST API V 1."""
+import socket
 
 import requests
 from django.http import HttpResponse, JsonResponse
@@ -61,7 +62,10 @@ def scan(resp, request):
     checksum = resp['hash']
     filename = resp['file_name']
     authorization = request.environ.get('HTTP_AUTHORIZATION')
-    url = 'http://' + request.META['REMOTE_ADDR'] + ':'+request.META['SERVER_PORT']+'/api/v1/scan'
+    # 获取本机电脑名
+    myname = socket.getfqdn(socket.gethostname())
+    myaddr = socket.gethostbyname(myname)
+    url = 'http://' + myaddr + ':'+request.META['SERVER_PORT']+'/api/v1/scan'
     data = {
         'scan_type': (None, typ),
         'hash': (None, checksum),
@@ -73,9 +77,13 @@ def scan(resp, request):
                'Authorization': authorization}
     # 加分布式锁,除非执行完毕，不然不给解锁
     if acquire_lock(checksum, 5, 3600, checksum):
-        response = requests.post(url, data=m, headers=headers)
-        # 解锁
-        release_lock(checksum, checksum)
+        try:
+            response = requests.post(url, data=m, headers=headers)
+        except Exception as excep:
+            logger.error(str(excep))
+            # 解锁
+        finally:
+            release_lock(checksum, checksum)
     else:
         logger.error("Scanning in other server or cant connect to redis server")
         response = None
