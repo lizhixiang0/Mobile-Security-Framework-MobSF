@@ -61,7 +61,7 @@ def scan(resp, request):
     checksum = resp['hash']
     filename = resp['file_name']
     authorization = request.environ.get('HTTP_AUTHORIZATION')
-    url = 'http://' + request.get_host() + '/api/v1/scan'
+    url = 'http://' + request.META['REMOTE_ADDR'] + ':'+request.META['SERVER_PORT']+'/api/v1/scan'
     data = {
         'scan_type': (None, typ),
         'hash': (None, checksum),
@@ -71,6 +71,7 @@ def scan(resp, request):
     m = MultipartEncoder(fields=data)
     headers = {'Content-Type': m.content_type,
                'Authorization': authorization}
+    # 加分布式锁,除非执行完毕，不然不给解锁
     if acquire_lock(checksum, 5, 3600, checksum):
         response = requests.post(url, data=m, headers=headers)
         # 解锁
