@@ -373,8 +373,9 @@ else:
     # ^CONFIG-END^: Do not edit this line
 
     # ====================configure redis============================
-    REDIS_IP = '127.0.0.1'
+    REDIS_IP = '192.168.201.81'
     REDIS_PORT = 6379
+    REDIS_SECRET = 'Pass9900!'
 
 # Better logging
 LOGGING = {

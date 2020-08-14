@@ -77,7 +77,7 @@ def scan(resp, request):
         # 解锁
         release_lock(checksum, checksum)
     else:
-        logger.error("Scanning in other server")
+        logger.error("Scanning in other server or cant connect to redis server")
         response = None
     return response
 

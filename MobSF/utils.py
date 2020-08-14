@@ -41,21 +41,27 @@ class Color(object):
 
 redis_client = redis.Redis(host=settings.REDIS_IP,
                            port=settings.REDIS_PORT,
+                           password=settings.REDIS_SECRET,
                            )
 
 
 # 获取一个锁
 # lock_name：锁定名称
-# acquire_time: 客户端准备获取锁的时间,防止一直在等着获取锁,以秒为单位
+# acquire_time: 客户端准备获取锁的时间,防止一直在等着获取锁,以秒为单位,这里设置为3秒。拿不到就不拿了
 # time_out: 锁的过期时间,1小时
 def acquire_lock(lock_name, acquire_time=3, time_out=3600, MD5="123456789"):
     end = time.time() + acquire_time
     lock = "string:lock:" + lock_name
+    flag = False
     while time.time() < end:
-        if redis_client.setnx(lock, MD5) and redis_client.expire(lock, time_out):
-            # 给锁设置超时时间, 防止进程崩溃导致其他进程无法获取锁（这里有点问题,需要保证两个命令同时进行）
-            return True
-    return False
+        try:
+            if redis_client.setnx(lock, MD5) and redis_client.expire(lock, time_out):
+                flag = True
+                # 给锁设置超时时间, 防止进程崩溃导致其他进程无法获取锁（这里有点问题,需要保证两个命令同时进行）
+        except Exception as ex:
+            logger.exception('Error connect to redis server')
+            logger.error(str(ex))
+    return flag
 
 
 # 释放一个锁
