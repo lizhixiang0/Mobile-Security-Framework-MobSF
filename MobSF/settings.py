@@ -62,19 +62,21 @@ SECRET_FILE = os.path.join(MobSF_HOME, 'secret')
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 # Sqlite3 suport
-"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mobsf',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'USER': 'paxuser',
+        'PASSWORD': 'P@x12345',
+        'HOST': '192.168.201.35',
         'PORT': '3306',
     }
 }
-"""
+
+
+
 # Postgres DB - Install psycopg2
+"""
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -85,6 +87,7 @@ DATABASES = {
         'PORT': '5432',
      }
  }
+ """
 # End Postgres support
 
 # ===============================================
@@ -376,7 +379,13 @@ else:
     REDIS_IP = '192.168.201.81'
     REDIS_PORT = 6379
     REDIS_SECRET = 'Pass9900!'
+    REDIS_TIME_OUT = 1200
 
+    # ====================Thread pool============================
+    POOL_COUNT = 10
+
+    # ====================REST API Authorization============================
+    AUTHORIZATION = 'c9f130ff954f7a61334897f9afbe27265a122dd8a508a4c3f3e6b513a77ac713'
 # Better logging
 LOGGING = {
     'version': 1,

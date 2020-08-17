@@ -1,10 +1,13 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 
+from MobSF import settings
+
 
 class ThreadPool(object):
     def __init__(self):
         # 线程池
-        self.executor = ThreadPoolExecutor(3)
+
+        self.executor = ThreadPoolExecutor(settings.POOL_COUNT)
         # 用于存储正在执行任务的线程
         self.future_dict = {}
 

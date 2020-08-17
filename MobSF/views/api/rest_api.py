@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from requests_toolbelt import MultipartEncoder
 
+from MobSF import settings
 from MobSF.ThreadPool import global_thread_pool
 from MobSF.utils import api_key, logger, acquire_lock, release_lock
 from MobSF.views.helpers import request_method
@@ -76,7 +77,7 @@ def scan(resp, request):
     headers = {'Content-Type': m.content_type,
                'Authorization': authorization}
     # 加分布式锁,除非执行完毕，不然不给解锁
-    if acquire_lock(checksum, 5, 3600, checksum):
+    if acquire_lock(checksum, 5, settings.REDIS_TIME_OUT, checksum):
         try:
             response = requests.post(url, data=m, headers=headers)
         except Exception as excep:

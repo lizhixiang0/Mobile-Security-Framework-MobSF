@@ -118,7 +118,7 @@ def api_key():
     # if os.environ.get('MOBSF_API_KEY'):
     #     logger.info('\nAPI Key read from environment variable')
     #    return os.environ['MOBSF_API_KEY']
-    return "c9f130ff954f7a61334897f9afbe27265a122dd8a508a4c3f3e6b513a77ac713"
+    return settings.AUTHORIZATION
 
     secret_file = os.path.join(settings.MobSF_HOME, 'secret')
     if is_file_exists(secret_file):
