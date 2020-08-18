@@ -49,7 +49,7 @@ redis_client = redis.Redis(host=settings.REDIS_IP,
 # lock_name：锁定名称
 # acquire_time: 客户端准备获取锁的时间,防止一直在等着获取锁,以秒为单位,这里设置为3秒。拿不到就不拿了
 # time_out: 锁的过期时间,1小时
-def acquire_lock(lock_name, acquire_time=3, time_out=3600, MD5="123456789"):
+def acquire_lock(lock_name, acquire_time=3, time_out=settings.REDIS_TIME_OUT, MD5="123456789"):
     end = time.time() + acquire_time
     lock = "string:lock:" + lock_name
     flag = False
